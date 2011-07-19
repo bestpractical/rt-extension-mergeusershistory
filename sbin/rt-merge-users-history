@@ -194,7 +194,7 @@ foreach my $model ( @models ) {
 }
 
 # update attachments' headers
-if ( $merge->EmailAddress && $user->EmailAddress ) {
+if ( !$OPT{'skip'}{'headers'} && $merge->EmailAddress && $user->EmailAddress ) {
     $RT::Logger->debug( "Replacing email addresses in attachments' headers" );
     my $query = "UPDATE Attachments a, Transactions t SET a.Headers = REPLACE(a.Headers, ?, ?)"
         ." WHERE a.TransactionId = t.id AND t.Type NOT LIKE ?";
