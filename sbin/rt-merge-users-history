@@ -38,6 +38,8 @@ one account an alias to another.
 END
 
 
+my %OPT = get_options();
+
 my ($from, $into) = @ARGV;
 die "$usage" unless $from && $into;
 
@@ -243,4 +245,28 @@ sub describe_group {
     }
     return $res;
 }
+
+sub get_options {
+    use Getopt::Long qw(GetOptions);
+    my %DEFAULTS = (
+        'ask!'    => 1,
+        'help|h'  => 0,
+        'skip=s@' => [],
+    );
+
+    my %res;
+    while ( my ($k, $v) = each %DEFAULTS ) {
+        my $name = $k;
+        $name =~ s/[=+!:|].*//;
+        $res{$name} = $v;
+    }
+
+    GetOptions( \%res, keys %DEFAULTS );
+
+    $res{'skip'} = { map { $_ => 1 } @{ $res{'skip'} } };
+
+    return %res;
+}
+
+
 
