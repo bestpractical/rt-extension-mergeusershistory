@@ -215,6 +215,8 @@ sub execute {
 
 sub prompt_yN {
     my $msg = shift;
+    return 1 unless $OPT{'ask'};
+
     print $msg ." [N]: ";
     my $a = <STDIN>;
     return 1 if $a =~ /^(y|yes)$/i;
